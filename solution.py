@@ -202,7 +202,7 @@ for k, v in sorted(vars(opt).items()):
 print('-------------- End ----------------')
 
 # Set the number of epoch to be 1 for demonstration purposes
-opt.n_epochs = 1
+opt.n_epochs = 2 # for demonstration but if you wish to train your own models please set to 200
 # Initialize the model
 phase2nuclei_model = create_model(opt)
 # Define Optimizers for G and D
