@@ -77,8 +77,11 @@ Learning goals:
 from pathlib import Path
 import os
 import sys
-parent_dir = os.path.abspath(os.path.join(os.getcwd(), '..'))
+
+# ------- PLEASE ENSURE THIS MATCHES WHERE YOU HAVE DOWNLOADED THE DLMLBL REPO -----
+parent_dir = '../../data/06_image_translation/part2'
 sys.path.append(parent_dir)
+
 import torch
 import numpy as np
 import pandas as pd
@@ -202,7 +205,7 @@ for k, v in sorted(vars(opt).items()):
 print('-------------- End ----------------')
 
 # Set the number of epoch to be 1 for demonstration purposes
-opt.n_epochs = 1
+opt.n_epochs = 2 # start from 1
 # Initialize the model
 phase2nuclei_model = create_model(opt)
 # Define Optimizers for G and D
@@ -296,7 +299,7 @@ In this part, we will evaluate the performance of the pre-trained model. We will
 
 """
 # %%
-log_dir = f"./GAN_code/GANs_MI2I/pre_trained/{opt.name}/"
+log_dir = f"~/data/06_image_translation/part2/model_tensorboard/{opt.name}/"
 %reload_ext tensorboard
 # %%
 %tensorboard --logdir $log_dir
