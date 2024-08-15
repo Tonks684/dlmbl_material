@@ -57,7 +57,7 @@ Learning goals:
 # TO DO: Change the path to the directory where the data and code is stored is stored.
 import os
 import sys
-parent_dir = os.path.abspath("~/data/06_image_translation/part2/")
+parent_dir = os.path.abspath("~/data/06_image_translation/part2/GAN_code/GANs_MI2I/")
 sys.path.append(parent_dir)
 
 # %%
@@ -76,23 +76,23 @@ import warnings
 warnings.filterwarnings('ignore')
 
 # Import all the necessary hyperparameters and configurations for training.
-from GAN_code.GANs_MI2I.pix2pixHD.options.train_options import TrainOptions
-from GAN_code.GANs_MI2I.pix2pixHD.options.test_options import TestOptions
+from pix2pixHD.options.train_options import TrainOptions
+from pix2pixHD.options.test_options import TestOptions
 
 # Import Pytorch dataloader and transforms.
-from GAN_code.GANs_MI2I.pix2pixHD.data.data_loader_dlmbl import CreateDataLoader
+from pix2pixHD.data.data_loader_dlmbl import CreateDataLoader
 
 # Import the model architecture.
-from GAN_code.GANs_MI2I.pix2pixHD.models import create_model
+from pix2pixHD.models import create_model
 
 # Import helper functions for visualization and processing.
-from GAN_code.GANs_MI2I.pix2pixHD.util.visualizer import Visualizer
-from GAN_code.GANs_MI2I.pix2pixHD.util import util
+from pix2pixHD.util.visualizer import Visualizer
+from pix2pixHD.util import util
 
 # Import train script.
-from GAN_code.GANs_MI2I.pix2pixHD.train_dlmbl import train as train_model
-from GAN_code.GANs_MI2I.pix2pixHD.test_dlmbl import inference as inference_model
-from GAN_code.GANs_MI2I.pix2pixHD.test_dlmbl import sampling
+from pix2pixHD.train_dlmbl import train as train_model
+from pix2pixHD.test_dlmbl import inference as inference_model
+from pix2pixHD.test_dlmbl import sampling
 
 # pytorch lightning wrapper for Tensorboard.
 from torch.utils.tensorboard import SummaryWriter
