@@ -1,8 +1,5 @@
 #!/usr/bin/env bash
 
-### TO DO ###
-# Change back the environment name and run pip install dominate
-
 # Exit immediately if a command exits with a non-zero status
 set -e
 # Save current directory.
@@ -15,14 +12,16 @@ echo "Current directory after creating and navigating to GAN_code: $(pwd)"
 # Clone the Git repository
 git clone git@github.com:Tonks684/GANs_MI2I.git
 echo "Repository cloned. Current directory: $(pwd)"
-# Create conda environment from yml
 cd ~/data/06_image_translation/part2/GAN_code/GANs_MI2I
 echo "Current directory after navigating to GANs_MI2I: $(pwd)"
-# # Find path to the environment - conda activate doesn't work from within shell scripts.
+# # Find path to the mamba environment.
 ENV_PATH=$(conda info --envs | grep 06_image_translation | awk '{print $NF}')
-# $ENV_PATH/bin/pip install "dominate"
-# Activate Env
-source activate 04_image_translation_phd
+$ENV_PATH/bin/pip install "dominate"
+$ENV_PATH/bin/pip install "cellpose"
+$ENV_PATH/bin/pip uninstall -y "opencv-python"
+$ENV_PATH/bin/pip install "opencv-python==4.7.0.72"
+# Add conda environment to jupyter notebook
+$ENV_PATH/bin/python -m ipykernel install --user --name 06_image_translation --display-name "06_image_translation"
 # Download the weights and pretrained tensorboards
 mkdir -p ~/data/06_image_translation/part2/model_weights
 mkdir -p ~/data/06_image_translation/part2/model_tensorboard
