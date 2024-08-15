@@ -15,12 +15,12 @@ echo "Repository cloned. Current directory: $(pwd)"
 cd ~/data/06_image_translation/part2/GAN_code/GANs_MI2I
 echo "Current directory after navigating to GANs_MI2I: $(pwd)"
 # # Find path to the mamba environment.
-# ENV_PATH=$(conda info --envs | grep 06_image_translation | awk '{print $NF}')
-ENV_PATH="/home/smt29021/.conda/envs/06_image_translation"
+ENV_PATH=$(conda info --envs | grep 06_image_translation | awk '{print $NF}')
 $ENV_PATH/bin/pip install "dominate"
 $ENV_PATH/bin/pip install "cellpose"
 $ENV_PATH/bin/pip uninstall -y "opencv-python"
 $ENV_PATH/bin/pip install "opencv-python==4.7.0.72"
+$ENV_PATH/bin/pip install "ipykernel"
 # Add conda environment to jupyter notebook
 $ENV_PATH/bin/python -m ipykernel install --user --name 06_image_translation --display-name "06_image_translation"
 # Download the weights and pretrained tensorboards
