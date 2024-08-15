@@ -70,7 +70,7 @@ from skimage import metrics
 from tifffile import imread, imsave
 import matplotlib.pyplot as plt
 from cellpose import models
-from typing import List, Tuple, ArrayLike
+from typing import List, Tuple,
 import warnings
 warnings.filterwarnings('ignore')
 
@@ -483,22 +483,22 @@ def visualise_results(phase_images, target_stains, virtual_stains, crop_size=Non
             phase_images[index] = crop(phase_images[index], crop_size, type)
             target_stains[index] = crop(target_stains[index], crop_size, type)
             virtual_stains[index] = crop(virtual_stains[index], crop_size, type)
-        axes[i, 0].imshow(phase_images[index], cmap="gray")
-        axes[i, 0].set_title("Phase")
-        axes[i, 1].imshow(
+        axes[index, 0].imshow(phase_images[index], cmap="gray")
+        axes[index, 0].set_title("Phase")
+        axes[index, 1].imshow(
             target_stains[index],
             cmap="gray",
             vmin=np.percentile(target_stains[index], 1),
             vmax=np.percentile(target_stains[index], 99),
         )
-        axes[i, 1].set_title("Target Fluorescence ")
-        axes[i, 2].imshow(
+        axes[index, 1].set_title("Target Fluorescence ")
+        axes[index, 2].imshow(
             virtual_stains[index],
             cmap="gray",
             vmin=np.percentile(target_stains[index], 1),
             vmax=np.percentile(target_stains[index], 99),
         )
-        axes[i, 2].set_title("Virtual Stain")
+        axes[index, 2].set_title("Virtual Stain")
     for ax in axes.flatten():
         ax.axis("off")
     plt.tight_layout()
