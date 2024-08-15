@@ -1,7 +1,7 @@
 # %% [markdown]
 """
 # A Generative Modelling Approach to Image translation
-Written by Samuel Tonks, Krull Lab University of Birmingham UK, with many inputs and bugfixes from [Eduardo Hirata-Miyasaki](https://github.com/edyoshikun), [Ziwen Liu](https://github.com/ziw-liu) and [Shalin Mehta](https://github.com/mattersoflight) of CZ Biohub San Francisco.
+Written by [Samuel Tonks](https://github.com/Tonks684), Krull Lab University of Birmingham UK, with many inputs and bugfixes from [Eduardo Hirata-Miyasaki](https://github.com/edyoshikun), [Ziwen Liu](https://github.com/ziw-liu) and [Shalin Mehta](https://github.com/mattersoflight) of CZ Biohub San Francisco.
 """
 
 # %% [markdown]
