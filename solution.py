@@ -224,9 +224,9 @@ train_model(
 <br><br>
 **- Adversarial Loss**: We can formulate the adversarial loss as a Least Squared Error Loss in which for real data the discriminator should output a value close to 1 and for fake data a value close to 0. The generator's goal is to make the discriminator output a value as close to 1 for fake data. We plot the least squared error loss.
 <br><br>
-**- Feature Matching Loss**: Both networks are also trained using the generator feature matching loss which encourages the generator to produce images that contain similar statistics to the real images at each scale. We also plot the feature matching L1 loss for the training and validation sets together to observe the performance and how the model is fitting the data.<br><br>
+**- Feature Matching Loss**: Both networks are also trained using the generator feature matching loss which encourages the generator to produce images that contain similar statistics to the real images at each scale. We also plot the feature matching L1 loss for the training and validation sets together to observe the performance and how the model is fitting the data.
 <br><br>
-- This implementation allows for the turning on/off of the least-square loss term by setting the opt.no_lsgan flag to the model options. As well as the turning off of the feature matching loss term by setting the opt.no_ganFeat_loss flag to the model options. Something you might want to explore in the next section!<br><br>
+This implementation allows for the turning on/off of the least-square loss term by setting the opt.no_lsgan flag to the model options. As well as the turning off of the feature matching loss term by setting the opt.no_ganFeat_loss flag to the model options. Something you might want to explore in the next section!<br><br>
 </div>
 """
 # %% [markdown]
@@ -259,24 +259,13 @@ log_dir = f"{top_dir}/model_tensorboard/{opt.name}/"
 # %% [markdown]
 """
 <div class="alert alert-info">
-
-## Qualitative evaluation:
-<br>
-We have visualised the model output for an unseen phase contrast image and the target, nuclei stain.<br><br>
+## Training Results
 Please note down your thoughts about the following questions...
 <br><br>
-1.**What do you notice about the virtual staining predictions? How do they appear compared to the regression-based approach? Can you spot any hallucinations?** 
-<br>
-</div>
-"""
-# %% [markdown]
-"""
-<div class="alert alert-info">
-## Quantitative evaluation:
-
-1. What do you notice about the probabilities of the discriminators? How do the values compare during training compared to validation?<br><br>
-2. What do you notice about the feature matching L1 loss?<br><br>
-3. What do you notice about the least-square loss?<br><br>
+**- What do you notice about the virtual staining predictions? How do they appear compared to the regression-based approach? Can you spot any hallucinations?**<br><br> 
+**- What do you notice about the probabilities of the discriminators? How do the values compare during training compared to validation?**<br><br>
+**- What do you notice about the feature matching L1 loss?**<br><br>
+**- What do you notice about the least-square loss?**<br><br>
 </div>
 """
 
@@ -308,8 +297,11 @@ Pixel-level metrics:
 - [Structural Similarity Index Measure (SSIM)](https://en.wikipedia.org/wiki/Structural_similarity).
 - [Pearson Correlation Coefficient (PCC)](https://en.wikipedia.org/wiki/Pearson_correlation_coefficient).
 
-Instance-level metrics:
-- [F1 score](https://en.wikipedia.org/wiki/F1_score). via [Cellpose](https://cellpose.org/).
+Instance-level metrics via [Cellpose masks](https://cellpose.org/):
+- [Accuracy](https://en.wikipedia.org/wiki/Accuracy_and_precision#In_binary_classification
+- [Jaccard Index](https://en.wikipedia.org/wiki/Jaccard_index)
+- [Dice Score](https://en.wikipedia.org/wiki/S%C3%B8rensen%E2%80%93Dice_coefficient)
+- [Mean Average Precision](https://en.wikipedia.org/wiki/Evaluation_measures_(information_retrieval)#Mean_average_precision)
 """
 
 # %%
