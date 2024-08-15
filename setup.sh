@@ -28,7 +28,6 @@ $ENV_PATH/bin/pip install -U "scikit-image"
 $ENV_PATH/bin/pip install "tensorboard"
 $ENV_PATH/bin/pip install "viscy"
 $ENV_PATH/bin/pip install "torchmetrics[detection]"
-
 # Download the weights and pretrained tensorboards
 mkdir -p ~/data/06_image_translation/part2/model_weights
 mkdir -p ~/data/06_image_translation/part2/model_tensorboard
