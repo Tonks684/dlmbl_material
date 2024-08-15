@@ -471,7 +471,7 @@ def visualise_results(phase_images, target_stains, virtual_stains, crop_size=Non
     """  
     fig, axes = plt.subplots(5, 3, figsize=(15, 20))
     sample_indices = np.random.choice(len(phase_images), 5)
-    for index in enumerate(sample_indices):
+    for index,sample in enumerate(sample_indices):
         if crop_size:
             phase_images[index] = crop(phase_images[index], crop_size, type)
             target_stains[index] = crop(target_stains[index], crop_size, type)
