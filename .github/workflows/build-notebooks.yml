@@ -1,9 +1,7 @@
 name: Build Notebooks
 on:
   push:
-    paths:
-      - './solution.py'
-      
+     
 
 jobs:
   run:
