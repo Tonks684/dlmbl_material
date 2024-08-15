@@ -259,6 +259,7 @@ log_dir = f"{top_dir}/model_tensorboard/{opt.name}/"
 # %% [markdown]
 """
 <div class="alert alert-info">
+
 ## Training Results
 Please note down your thoughts about the following questions...
 <br><br>
@@ -298,7 +299,7 @@ Pixel-level metrics:
 - [Pearson Correlation Coefficient (PCC)](https://en.wikipedia.org/wiki/Pearson_correlation_coefficient).
 
 Instance-level metrics via [Cellpose masks](https://cellpose.org/):
-- [Accuracy](https://en.wikipedia.org/wiki/Accuracy_and_precision#In_binary_classification
+- [Accuracy](https://en.wikipedia.org/wiki/Accuracy_and_precision#In_binary_classification)
 - [Jaccard Index](https://en.wikipedia.org/wiki/Jaccard_index)
 - [Dice Score](https://en.wikipedia.org/wiki/S%C3%B8rensen%E2%80%93Dice_coefficient)
 - [Mean Average Precision](https://en.wikipedia.org/wiki/Evaluation_measures_(information_retrieval)#Mean_average_precision)
@@ -511,6 +512,7 @@ The following code will compute the following:
 </div>
 """
 # %%
+
 # Define the function to perform  minmax normalization which is required for the pixel-level metrics.
 def min_max_scale(input):
     return (input - np.min(input)) / (np.max(input) - np.min(input))
@@ -556,7 +558,7 @@ test_pixel_metrics.boxplot(
     rot=30,
 )
 test_pixel_metrics.head()
-#%%[markdown]
+# %% [markdown]
 """
 - What do these metrics tells us about the performance of the model?
 - How do the pixel-level metrics compare to the regression-based approach?
