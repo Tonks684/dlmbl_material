@@ -70,7 +70,7 @@ from skimage import metrics
 from tifffile import imread, imsave
 import matplotlib.pyplot as plt
 from cellpose import models
-from typing import List, Tuple,
+from typing import List, Tuple
 import warnings
 warnings.filterwarnings('ignore')
 
