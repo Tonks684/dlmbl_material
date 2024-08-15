@@ -21,8 +21,14 @@ $ENV_PATH/bin/pip install "cellpose"
 $ENV_PATH/bin/pip uninstall -y "opencv-python"
 $ENV_PATH/bin/pip install "opencv-python==4.7.0.72"
 $ENV_PATH/bin/pip install "ipykernel"
-# Add conda environment to jupyter notebook
-$ENV_PATH/bin/python -m ipykernel install --user --name 06_image_translation --display-name "06_image_translation"
+$ENV_PATH/bin/pip install "pandas"
+$ENV_PATH/bin/pip install "pillow"
+$ENV_PATH/bin/pip install "matplotlib"
+$ENV_PATH/bin/pip install -U "scikit-image"
+$ENV_PATH/bin/pip install "tensorboard"
+$ENV_PATH/bin/pip install "viscy"
+$ENV_PATH/bin/pip install "torchmetrics[detection]"
+
 # Download the weights and pretrained tensorboards
 mkdir -p ~/data/06_image_translation/part2/model_weights
 mkdir -p ~/data/06_image_translation/part2/model_tensorboard
