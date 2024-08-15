@@ -418,7 +418,7 @@ def crop(img, crop_size, type=None):
     ndarray: The cropped image array.
     """
     # Dimension of input array
-    _, width, height = img.shape
+    width, height = img.shape
 
     # Generate random coordinates for the crop
     max_y = height - crop_size
