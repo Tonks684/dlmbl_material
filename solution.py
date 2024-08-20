@@ -49,12 +49,10 @@ If you have issues with getting the kernel to load please follow the following s
 2. Register the environment as a Kernel using the below line of code.
 3. Reload VS Code via Ctrl+Shift+P, then select Reload Window.
 """
-# %% <a [markdown]></a>
 #%%
 !python -m ipykernel install --user --name 06_image_translation --display-name "Python 06_image_translation"
 
-
-
+# %% [markdown]
 """
 # Part 1: Define dataloaders & walk through steps to train a Pix2PixHD GAN.
 ---------
@@ -272,7 +270,6 @@ In this part, we will evaluate the performance of the pre-trained model. We will
 
 If you are having issues loading the tensorboard session click "Launch TensorBoard session". You should then be able to add the log_dir path below and a tensorboard session shouls then load.
 """
-
 # %%
 log_dir = f"{top_dir}/model_tensorboard/{opt.name}/"
 %reload_ext tensorboard
