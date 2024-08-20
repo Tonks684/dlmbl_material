@@ -39,9 +39,21 @@ As you have already explored the data in the previous parts, we will focus on tr
 """
 <div class="alert alert-danger">
 Set your python kernel to <span style="color:black;">06_image_translation</span>
+
 </div>
 """
+# %% [markdown]
+"""
+If you have issues with getting the kernel to load please follow the following steps:
+1. Ctrl+Shift+P to open Command Palette. Type Python: Select Interpreter and select 06_image_translation.
+2. Register the environment as a Kernel using the below line of code.
+3. Reload VS Code via Ctrl+Shift+P, then select Reload Window.
+"""
 # %% <a [markdown]></a>
+#%%
+!python -m ipykernel install --user --name 06_image_translation --display-name "Python 06_image_translation"
+
+
 
 """
 # Part 1: Define dataloaders & walk through steps to train a Pix2PixHD GAN.
@@ -52,12 +64,15 @@ Learning goals:
 
 - Load dataset and configure dataloader.
 - Configure Pix2PixHD GAN to train for translating from phase to nuclei.
+
+
+Before we start please set the first section of the parent_dir to your personal path
 """
 # %%
 # TO DO: Change the path to the directory where the data and code is stored is stored.
 import os
 import sys
-parent_dir = os.path.abspath("~/data/06_image_translation/part2/GAN_code/GANs_MI2I/")
+parent_dir = os.path.abspath("ADD_HERE/data/06_image_translation/part2/GAN_code/GANs_MI2I/")
 sys.path.append(parent_dir)
 
 # %%
@@ -69,9 +84,13 @@ from tqdm import tqdm
 from skimage import metrics
 from tifffile import imread, imsave
 import matplotlib.pyplot as plt
+import matplotlib.animation as animation
+from IPython.display import HTML
+
 from cellpose import models
 from typing import List, Tuple
 from numpy.typing import ArrayLike
+
 import warnings
 warnings.filterwarnings('ignore')
 
@@ -251,6 +270,7 @@ Learning goals:
 
 In this part, we will evaluate the performance of the pre-trained model. We will begin by looking qualitatively at the model predictions, then dive into the different loss plots. We will discuss the implications of different hyper-parameter combinations for the performance of the model.
 
+If you are having issues loading the tensorboard session click "Launch TensorBoard session". You should then be able to add the log_dir path below and a tensorboard session shouls then load.
 """
 # %%
 log_dir = f"{top_dir}/model_tensorboard/{opt.name}/"
@@ -661,17 +681,17 @@ for i, (target_stain, predicted_stain) in tqdm(enumerate(zip(target_stains, virt
 test_segmentation_metrics.head()
 # %%
 # Define function to visualize the segmentation results.
-def visualise_results_and_masks(segmentation_results: Tuple[dict], rows: int = 5, crop_size: int = None, crop_type: str = 'center'):
+def visualise_results_and_masks(segmentation_results, test_segmentation_metrics: Tuple[dict], rows: int = 5, crop_size: int = None, crop_type: str = 'center'):
 
     # Sample a subset of the segmentation results.
     sample_indices = np.random.choice(len(phase_images),rows)
-    segmentation_results_subset = segmentation_results[sample_indices]
-    segmentation_metrics_subset = test_segmentation_metrics.iloc[sample_indices]
+    segmentation_metrics_subset = segmentation_metrics_subset.iloc[sample_indices,:]
+    segmentation_results = [segmentation_results[i] for i in sample_indices]
     # Define the figure and axes.
     fig, axes = plt.subplots(rows, 5, figsize=(rows*3, 15))
 
     # Visualize the segmentation results.
-    for i, idx in enumerate(segmentation_results_subset):
+    for i, idx in enumerate(test_segmentation_metrics):
         result = segmentation_results[idx]
         segmentation_metrics = segmentation_metrics_subset.iloc[i]
         phase_image = result["phase_image"]
@@ -709,7 +729,7 @@ def visualise_results_and_masks(segmentation_results: Tuple[dict], rows: int = 5
     plt.tight_layout()
     plt.show()
     
-visualise_results_and_masks(segmentation_results, crop_size=256, crop_type='center')
+visualise_results_and_masks(test_segmentation_metrics, crop_size=256, crop_type='center')
 # %% [markdown]
 """
 <div class="alert alert-success">
@@ -796,7 +816,16 @@ def visualise_both_methods(
         axes[i, 3].axis("off")
     plt.tight_layout()
     plt.show()
+# %% [markdown]
+"""
+<div class="alert alert-success">
+    
+## Checkpoint 4
 
+Congratulations! You should now have a better understanding of the difference in performance for image translation when approaching the problem using a regression vs. generative modelling approaches!
+
+</div>
+"""
 # %% [markdown]
 """
 # Part 5: BONUS: Sample different virtual staining solutions from the GAN using MC-Dropout and explore the uncertainty in the virtual stain predictions.
@@ -818,6 +847,7 @@ visualizer = Visualizer(opt)
 # Load pre-trained model
 opt.variational_inf_runs = 100 # Number of samples per phase input
 opt.variation_inf_path = f"./GAN_code/GANs_MI2I/pre_trained/{opt.name}/samples/"  # Path to store the samples.
+opt.results_dir = f"{top_dir}/GAN_code/GANs_MI2I/pre_trained/dlmbl_vsnuclei/sampling_results"
 opt.dropout_variation_inf = True  # Use dropout during inference.
 model = create_model(opt)
 # Generate & save predictions in the variation_inf_path directory.
@@ -825,53 +855,48 @@ sampling(test_dataset, opt, model)
                                       
 # %%
 # Visualise Samples                                      
-samples = sorted([i for i in Path(f"./GAN_code/GANs_MI2I/pre_trained/{opt.name}/samples").glob("**/*mask*.tif*")])
+samples = sorted([i for i in Path(f"{opt.results_dir}").glob("**/*.tif*")])
+assert len(samples) == 5
 # Create arrays to store the images.
-sample_images = np.zeros((len(samples),112, 512, 512)) # (samples, images, height, width)
+sample_images = np.zeros((5,100, 512, 512)) # (samples, images, height, width)
 # Load the images and store them in the arrays.
 for index, sample_path in tqdm(enumerate(samples)):
     sample_image = imread(sample_path)
     # Append the images to the arrays.
     sample_images[index] = sample_image
+
 # Plot the phase image, the target image, the variance of samples and 3 samples
-
+# %%
 # Create a matplotlib plot with animation through images.
-import matplotlib.animation as animation
-
 def animate_images(images):
+    # Expecting images to have shape (frames, height, width)
     fig, ax = plt.subplots()
     ax.axis('off')
-    im = ax.imshow(images[0], cmap='gray')
-
-    def update(i):
-        im.set_array(images[i])
-        return im,
-
-    ani = animation.FuncAnimation(fig, update, frames=len(images), interval=200)
-    plt.show()
-
-animate_images(sample_images)
-
-# Visualise the results of the model on the test set.
-fig, axes = plt.subplots(3, 7, figsize=(20, 5))
-sample_indices = np.random.choice(sample_images.shape[1], 3)
-for row, indices in enumerate(sample_indices):
-    axes[row, 0].imshow(phase_images[indices], cmap="gray")
-    axes[row, 0].set_title("Phase")
-    axes[row,0].axis("off")
-    axes[row, 1].imshow(target_stains[indices], cmap="gray")
-    axes[row, 1].set_title("Target Fluorescence")
-    axes[row,1].axis("off")
-    variance = np.var(sample_images[:,indices], axis=0)
-    axes[row, 2].imshow(variance, cmap="inferno")
-    axes[row, 2].set_title("Pixel-wise Sample Variance")
-    axes[row, 2].axis("off")
-    for col in range(3, 7):
-        axes[row, col].imshow(sample_images[col-3,indices], cmap="gray")
-        axes[row, col].set_title(f"Sample {col-3}")
-        axes[row,col].axis("off")
-plt.tight_layout()
-plt.show()                          
     
-                                      
+    # Make sure images are in (frames, height, width) order
+    images = images.transpose(0, 2, 1) if images.shape[1] == images.shape[2] else images
+    
+    imgs = []
+    for i in range(min(100, len(images))):  # Ensure you don't exceed the number of frames
+        im = ax.imshow(images[i], animated=True)
+        imgs.append([im])
 
+    ani = animation.ArtistAnimation(fig, imgs, interval=100, blit=False, repeat_delay=1000)
+    
+    # Display the animation
+    # plt.close(fig)
+    display(HTML(ani.to_jshtml()))
+
+# Example call with sample_images[0]
+animate_images(sample_images[0])
+                                      
+# %% [markdown]
+"""
+<div class="alert alert-success">
+    
+## Checkpoint 5
+
+Congratulations! You have generated predictions from a pre-trained model and evaluated the performance of the model on unseen data. You have computed pixel-level metrics and instance-level metrics to evaluate the performance of the model. You may have also began training your own Pix2PixHD GAN models with alternative hyperparameters.
+
+</div>
+"""
