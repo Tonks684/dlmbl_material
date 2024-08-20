@@ -277,16 +277,14 @@ log_dir = f"{top_dir}/model_tensorboard/{opt.name}/"
 
 # %% [markdown]
 """
-<div class="alert alert-info">
-
 ## Training Results
 Please note down your thoughts about the following questions...
-<br><br>
+
 **- What do you notice about the virtual staining predictions? How do they appear compared to the regression-based approach? Can you spot any hallucinations?**<br><br> 
 **- What do you notice about the probabilities of the discriminators? How do the values compare during training compared to validation?**<br><br>
 **- What do you notice about the feature matching L1 loss?**<br><br>
 **- What do you notice about the least-square loss?**<br><br>
-</div>
+
 """
 
 # %% [markdown]
@@ -586,6 +584,9 @@ test_pixel_metrics.boxplot(
 test_pixel_metrics.head()
 # %% [markdown]
 """
+## Inference Pixel-level Results
+Please note down your thoughts about the following questions...
+
 - What do these metrics tells us about the performance of the model?
 - How do the pixel-level metrics compare to the regression-based approach?
 - Could these metrics be skewed by the presence of hallucinations or background pilxels in the virtual stains?
@@ -729,6 +730,17 @@ def visualise_results_and_masks(segmentation_results: Tuple[dict], segmentation_
     plt.show()
     
 visualise_results_and_masks(segmentation_results,test_segmentation_metrics, crop_size=256, crop_type='center')
+
+# %% [markdown]
+# %% [markdown]
+"""
+## Inference Instance-level Results
+Please note down your thoughts about the following questions...
+
+- What do these metrics tells us about the performance of the model?
+- How does the performance compare to when looking at pixel-level metrics?
+
+"""
 # %% [markdown]
 """
 <div class="alert alert-success">
